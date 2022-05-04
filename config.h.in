@@ -1,0 +1,4 @@
+// the configured options and settings for MyProject
+#define MyProject_VERSION_MAJOR @MyProject_VERSION_MAJOR@
+#define MyProject_VERSION_MINOR @MyProject_VERSION_MINOR@
+#cmakedefine USE_MYFUNC
