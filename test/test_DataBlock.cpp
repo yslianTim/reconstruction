@@ -8,31 +8,32 @@
 class DataBlockTest : public ::testing::Test
 {
 protected:
-    DataBlock block1;
-    DataBlock block2;
+    DataBlock block1, block2;
     std::vector<float> data_dummy;
-    std::unique_ptr<float[]> data;
+    std::unique_ptr<float[]> data1, data2;
     int n_bin[3];
     float bin_size[3];
     
     void SetUp(void) override
     {
-        n_bin[0] = 5;
-        n_bin[1] = 2;
-        n_bin[2] = 3;
-        bin_size[0] = 2.8;
+        n_bin[0] = 100;
+        n_bin[1] = 100;
+        n_bin[2] = 30;
+        bin_size[0] = 1.8;
         bin_size[1] = 1.3;
         bin_size[2] = 0.5;
         data_dummy.reserve(n_bin[0] * n_bin[1] * n_bin[2]);
-        data = std::make_unique<float[]>(n_bin[0] * n_bin[1] * n_bin[2]);
+        data1 = std::make_unique<float[]>(n_bin[0] * n_bin[1] * n_bin[2]);
+        data2 = std::make_unique<float[]>(n_bin[0] * n_bin[1] * n_bin[2]);
         for (int i = 0; i < n_bin[0] * n_bin[1] * n_bin[2]; ++i)
         {
             auto tmp = 0.01*i;
             data_dummy.push_back(tmp);
-            data[i] = tmp;
+            data1[i] = tmp;
+            data2[i] = tmp;
         }
-        block1.Set(n_bin, bin_size);
-        block2.Set(n_bin, bin_size);
+        block1.Set(n_bin, bin_size, data1);
+        block2.Set(n_bin, bin_size, data2);
     }
 
     void TearDown(void) override
@@ -63,11 +64,11 @@ TEST_F(DataBlockTest, TestSet2D)
 
 TEST_F(DataBlockTest, TestSet3D)
 {
-    auto test_is_not_3D = block1.Is3D();
+    auto test_is_not_3D = block2.Is3D();
     EXPECT_FALSE(test_is_not_3D) << "Data block labeled as 3D data but it shouldn't.";
 
-    block1.Set3D();
-    auto test_is_3D = block1.Is3D();
+    block2.Set3D();
+    auto test_is_3D = block2.Is3D();
     EXPECT_TRUE(test_is_3D) << "Data block labeled as not 3D data but it should.";
 }
 

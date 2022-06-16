@@ -3,10 +3,12 @@
 
 #include <iostream>
 #include <memory>
+#include "TH2.h"
 
 class ImageObject
 {
     std::unique_ptr<float[]> data;
+    std::shared_ptr<TH2F> picture;
     int n_bin_x, n_bin_y;
     float bin_size_x, bin_size_y;
 
@@ -25,9 +27,11 @@ public:
     float GetBinSizeX(void) const { return bin_size_x; }
     float GetBinSizeY(void) const { return bin_size_y; }
     float GetEntry(int _pixel_x, int _pixel_y) const { return data[_pixel_x + n_bin_x*_pixel_y]; }
+    std::shared_ptr<TH2F> GetPicture(void) const { return picture; }
 
 private:
-
+    void MakePicture(void);
+    
 };
 
 

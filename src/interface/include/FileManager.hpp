@@ -31,7 +31,7 @@ public:
     void ImportFile(const std::string & current_path);
     int NumberOfImportFile(void) const { return fileObjectList.size(); }
     std::vector<int> GetFileIndexList(void) const { return fileIndex; }
-    std::vector<std::shared_ptr<FileObject>> GetImportFileList(void) const { return fileObjectList; }
+    std::vector<std::shared_ptr<FileObject>> GetFileList(void) const { return fileObjectList; }
     std::vector<std::string> GetFilePathList(void) const { return path_to_file; }
     std::vector<std::string> GetFileNameList(void) const { return file_name; }
 

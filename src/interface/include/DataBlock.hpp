@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include "ImageObject.hpp"
+#include "VolumeObject.hpp"
 
 class DataBlock
 {
@@ -13,6 +14,7 @@ class DataBlock
     float bin_size[3];
     std::unique_ptr<float[]> data_array;
     std::vector<std::unique_ptr<ImageObject>> image_list;
+    std::vector<std::unique_ptr<VolumeObject>> volume_list;
 
 public:
     DataBlock(void) :
@@ -24,7 +26,7 @@ public:
         data_array{ std::make_unique<float[]>(_n_bin[0] * _n_bin[1] * _n_bin[2]) } {}
     ~DataBlock() {}
     void Print(void) const;
-    void Set(int * _n_bin, float * _bin_size);
+    void Set(int * _n_bin, float * _bin_size, std::unique_ptr<float[]> & _data_array);
     void SetDataArray(std::unique_ptr<float[]> & _data_array);
     void SetStack(void);
     void Set2D(void);
@@ -40,6 +42,7 @@ public:
     float GetBinSizeZ(void) const { return bin_size[2]; }
     std::unique_ptr<float[]> const& GetDataArrayRef(void) const { return data_array; }
     std::vector<std::unique_ptr<ImageObject>> const& GetImageListRef(void) const { return image_list; }
+    std::vector<std::unique_ptr<VolumeObject>> const& GetVolumeListRef(void) const { return volume_list; }
 
 private:
     void Sort2D(void);

@@ -13,7 +13,7 @@ void DataBlock::Print(void) const
     std::cout << "]" << std::endl;
 }
 
-void DataBlock::Set(int * _n_bin, float * _bin_size)
+void DataBlock::Set(int * _n_bin, float * _bin_size, std::unique_ptr<float[]> & _data_array)
 {
     n_bin[0] = _n_bin[0];
     n_bin[1] = _n_bin[1];
@@ -21,6 +21,7 @@ void DataBlock::Set(int * _n_bin, float * _bin_size)
     bin_size[0] = _bin_size[0];
     bin_size[1] = _bin_size[1];
     bin_size[2] = _bin_size[2];
+    SetDataArray(_data_array);
 }
 
 void DataBlock::SetDataArray(std::unique_ptr<float[]> & _data_array)
@@ -57,9 +58,9 @@ void DataBlock::Sort2D(void)
     {
         auto image_obj = std::make_unique<ImageObject>(n_bin[0], n_bin[1], bin_size[0], bin_size[1]);
         auto data_tmp = std::make_unique<float[]>(n_bin[0] * n_bin[1]);
-        for (int i = 0 ; i < n_bin[0]; ++i)
+        for (int j = 0 ; j < n_bin[1]; ++j)
         {
-            for (int j = 0 ; j < n_bin[1]; ++j)
+            for (int i = 0 ; i < n_bin[0]; ++i)
             {
                 data_tmp[i + n_bin[0]*j] = data_array[i + n_bin[0]*(j + n_bin[1]*k)];
             }
@@ -89,5 +90,22 @@ void DataBlock::Sort3D(void)
         std::cout << "[WARNING] data_array is empty! Skip sorting data..." << std::endl;
         return;
     }
-    
+    volume_list.reserve(1);
+    auto volume_obj = std::make_unique<VolumeObject>(n_bin[0], n_bin[1], n_bin[2],
+                                                     bin_size[0], bin_size[1], bin_size[2]);
+    auto data_tmp = std::make_unique<float[]>(n_bin[0] * n_bin[1] * n_bin[2]);
+    for (int k = 0 ; k < n_bin[2]; ++k)
+    {
+        for (int j = 0 ; j < n_bin[1]; ++j)
+        {
+            for (int i = 0 ; i < n_bin[0]; ++i)
+            {
+                data_tmp[i + n_bin[0]*(j + n_bin[1]*k)] = data_array[i + n_bin[0]*(j + n_bin[1]*k)];
+            }
+        }
+    }
+    volume_obj->ImportData(data_tmp);
+    volume_list.push_back(std::move(volume_obj));
+    data_tmp.reset(nullptr);
+    volume_obj.reset(nullptr);
 }

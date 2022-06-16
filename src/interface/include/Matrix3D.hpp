@@ -66,6 +66,6 @@ public:
 private:
     Eigen::Matrix3d matrix;
 
-}; // === class Matrix3D
+};
 
 #endif

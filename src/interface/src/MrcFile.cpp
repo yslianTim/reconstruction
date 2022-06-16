@@ -1,32 +1,40 @@
 #include "MrcFile.hpp"
 
 void MrcFile::Print(void) const
-{
-    std::cout << nArray[0] << "\t" << nArray[1] << "\t" << nArray[2] << std::endl;
-    std::cout << mode << std::endl;
-    std::cout << iLocation[0] << "\t"
-              << iLocation[1] << "\t"
-              << iLocation[2] << std::endl;
-    std::cout << grid[0] << "\t" << grid[1] << "\t" << grid[2] << std::endl;
-    std::cout << dCellInAngstrom[0] << "\t"
+{  
+    using namespace std;
+    cout << " ========================================================= " << endl;
+    cout << " |             |    Column   |     Row     |   Section   | " << endl;
+    cout << " o=======================================================o " << endl;
+    cout << " |  Dimension  |";
+    cout << setw(13) << nArray[0] << "|"
+         << setw(13) << nArray[1] << "|"
+         << setw(13) << nArray[2] << "|" << endl;
+    cout << mode << endl;
+    cout << iLocation[0] << "\t"
+         << iLocation[1] << "\t"
+         << iLocation[2] << endl;
+    cout << grid[0] << "\t" << grid[1] << "\t" << grid[2] << endl;
+    cout << dCellInAngstrom[0] << "\t"
               << dCellInAngstrom[1] << "\t"
-              << dCellInAngstrom[2] << std::endl;
-    std::cout << dCellInDegree[0] << "\t"
+              << dCellInAngstrom[2] << endl;
+    cout << dCellInDegree[0] << "\t"
               << dCellInDegree[1] << "\t"
-              << dCellInDegree[2] << std::endl;
-    std::cout << axis[0]<< "\t" << axis[1] << "\t" << axis[2] << std::endl;
-    std::cout << densityMin << "\t" << densityMax << "\t" << densityMean << std::endl;
-    std::cout << iSpaceGroup << std::endl;
-    std::cout << sizeExHeader << std::endl;
-    std::string extra_string(extra);
-    std::cout << extra_string << std::endl;
-    std::cout << code << std::endl;
-    std::cout << version << std::endl;
-    std::cout << origin[0] << "\t" << origin[1] << "\t" << origin[2] << std::endl;
-    std::cout << rms << std::endl;
-    std::cout << nLabel << std::endl;
-    std::string label_string(label);
-    std::cout << label_string << std::endl;
+              << dCellInDegree[2] << endl;
+    cout << axis[0]<< "\t" << axis[1] << "\t" << axis[2] << endl;
+    cout << densityMin << "\t" << densityMax << "\t" << densityMean << endl;
+    cout << "iSpaceGroup = " << iSpaceGroup << endl;
+    cout << sizeExHeader << endl;
+    string extra_string(extra);
+    cout << extra_string << endl;
+    cout << code << endl;
+    cout << version << endl;
+    cout << origin[0] << "\t" << origin[1] << "\t" << origin[2] << endl;
+    cout << rms << endl;
+    cout << nLabel << endl;
+    string label_string(label);
+    cout << label_string << endl;
+    cout << " ========================================================= " << endl;
 }
 
 void MrcFile::SetInputFile(const std::string & path_to_input)
@@ -168,11 +176,11 @@ void MrcFile::FillDataBlock(void)
         dataBlock->SetStack();
     }
 
-    if (iSpaceGroup == 0)
+    if (grid[2] == 1)
     {
         dataBlock->Set2D();
     }
-    else if (iSpaceGroup >= 1)
+    else
     {
         dataBlock->Set3D();
     }
