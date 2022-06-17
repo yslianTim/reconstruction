@@ -23,7 +23,7 @@ TEST(TestSuiteSample, TestSample)
 TEST(TestFileManager, TestImportFile)
 {
     // Arrange
-    FileManager::Instance().ImportFile("/home/yslian/Projects/mywork/data/particles_export.mrcs");
+    FileManager::Instance().ImportFile("/home/yslian/Projects/mywork/data/particles_10.mrcs");
     FileManager::Instance().ImportFile("/home/yslian/Projects/mywork/downloads/protein_PDB_5J0N.mrc");
     //FileManager::Instance().ImportFile("/nas1/yslian/Data/mrcfile_one_particle/one_p_9953.mrc");
     //FileManager::Instance().ImportFile("/nas1/yslian/Data/mrcfile_one_particle/one_p_9966.mrc");
@@ -74,8 +74,9 @@ TEST(TestFileManager, TestDrawImage)
 {
     // Arrange
     auto fileList = FileManager::Instance().GetFileList();
+    fileList.at(0)->GetDataBlockRef()->GetImageListRef().at(0)->Rotate(0.15*M_PI);
     auto h1 = fileList.at(0)->GetDataBlockRef()->GetImageListRef().at(0)->GetPicture();
-    auto h2 = fileList.at(0)->GetDataBlockRef()->GetImageListRef().at(1)->GetPicture();
+    auto h2 = fileList.at(0)->GetDataBlockRef()->GetImageListRef().at(0)->GetPictureRot();
     auto h3 = fileList.at(1)->GetDataBlockRef()->GetVolumeListRef().at(0)->GetPicture();
 
     // Act
