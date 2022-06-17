@@ -16,9 +16,9 @@ protected:
     
     void SetUp(void) override
     {
-        n_bin[0] = 100;
-        n_bin[1] = 100;
-        n_bin[2] = 30;
+        n_bin[0] = 10;
+        n_bin[1] = 10;
+        n_bin[2] = 20;
         bin_size[0] = 1.8;
         bin_size[1] = 1.3;
         bin_size[2] = 0.5;

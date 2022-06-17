@@ -2,15 +2,23 @@
 
 void DataBlock::Print(void) const
 {
-    std::cout << "Array binning: "
-              << n_bin[0] << ", " << n_bin[1] << ", " << n_bin[2]
-              << std::endl;
-    std::cout << "Is stack data? " << std::boolalpha << f_is_stack << std::endl;
-    std::cout << "Is 2D array? " << std::boolalpha << f_is_2D << std::endl;
-    std::cout << "Is 3D array? " << std::boolalpha << f_is_3D << std::endl;
-    std::cout << "Data array: [" << std::endl;
-    std::cout << data_array[0] << ", " << data_array[1] << std::endl;
-    std::cout << "]" << std::endl;
+    using namespace std;
+    cout << " o=======================================================o " << endl;
+    cout << " |  Data Block |    Column   |     Row     |   Section   | " << endl;
+    cout << " o=======================================================o " << endl;
+    cout << " |  Dimension  |";
+    cout << right << setw(12) << n_bin[0] << " |"
+         << right << setw(12) << n_bin[1] << " |"
+         << right << setw(12) << n_bin[2] << " |" << endl;
+    cout << " |  Resolution |";
+    cout << right << setw(12) << bin_size[0] << " |"
+         << right << setw(12) << bin_size[1] << " |"
+         << right << setw(12) << bin_size[2] << " |" << endl;
+    cout << " |=======================================================| " << endl;
+    cout << " | Is Stack Data? | " << left << setw(36) << boolalpha << f_is_stack << " |" << endl;
+    cout << " | Is 2D Array?   | " << left << setw(36) << boolalpha << f_is_2D    << " |" << endl;
+    cout << " | Is 3D Array?   | " << left << setw(36) << boolalpha << f_is_3D    << " |" << endl;
+    cout << " o=======================================================o " << endl;
 }
 
 void DataBlock::Set(int * _n_bin, float * _bin_size, std::unique_ptr<float[]> & _data_array)

@@ -88,7 +88,7 @@ TEST(TestFileManager, TestDrawImage)
     cm->cd(2);
     h2->Draw("COL");
     cm->cd(3);
-    h3->Draw("BOX");
+    h3->Draw("ISO");
     cm->Print("image_test.png");
 
     // Assert

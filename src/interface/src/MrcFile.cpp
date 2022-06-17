@@ -3,38 +3,53 @@
 void MrcFile::Print(void) const
 {  
     using namespace std;
-    cout << " ========================================================= " << endl;
-    cout << " |             |    Column   |     Row     |   Section   | " << endl;
+    cout << " o=======================================================o " << endl;
+    cout << " |  MRC File   |    Column   |     Row     |   Section   | " << endl;
     cout << " o=======================================================o " << endl;
     cout << " |  Dimension  |";
-    cout << setw(13) << nArray[0] << "|"
-         << setw(13) << nArray[1] << "|"
-         << setw(13) << nArray[2] << "|" << endl;
-    cout << mode << endl;
-    cout << iLocation[0] << "\t"
-         << iLocation[1] << "\t"
-         << iLocation[2] << endl;
-    cout << grid[0] << "\t" << grid[1] << "\t" << grid[2] << endl;
-    cout << dCellInAngstrom[0] << "\t"
-              << dCellInAngstrom[1] << "\t"
-              << dCellInAngstrom[2] << endl;
-    cout << dCellInDegree[0] << "\t"
-              << dCellInDegree[1] << "\t"
-              << dCellInDegree[2] << endl;
-    cout << axis[0]<< "\t" << axis[1] << "\t" << axis[2] << endl;
-    cout << densityMin << "\t" << densityMax << "\t" << densityMean << endl;
-    cout << "iSpaceGroup = " << iSpaceGroup << endl;
-    cout << sizeExHeader << endl;
+    cout << setw(12) << nArray[0] << " |"
+         << setw(12) << nArray[1] << " |"
+         << setw(12) << nArray[2] << " |" << endl;
+    cout << " |  Location   |";
+    cout << setw(12) << iLocation[0] << " |"
+         << setw(12) << iLocation[1] << " |"
+         << setw(12) << iLocation[2] << " |" << endl;
+    cout << " |  Sampling   |";
+    cout << setw(12) << grid[0] << " |"
+         << setw(12) << grid[1] << " |"
+         << setw(12) << grid[2] << " |" << endl;
+    cout << " |  Res.(Ang)  |";
+    cout << setw(12) << dCellInAngstrom[0] << " |"
+         << setw(12) << dCellInAngstrom[1] << " |"
+         << setw(12) << dCellInAngstrom[2] << " |" << endl;
+    cout << " |  Res.(Deg)  |";
+    cout << setw(12) << dCellInDegree[0] << " |"
+         << setw(12) << dCellInDegree[1] << " |"
+         << setw(12) << dCellInDegree[2] << " |" << endl;
+    cout << " |  Axis Def.  |";
+    cout << setw(12) << axis[0] << " |"
+         << setw(12) << axis[1] << " |"
+         << setw(12) << axis[2] << " |" << endl;
+    cout << " |  Phase Ori  |";
+    cout << setw(12) << origin[0] << " |"
+         << setw(12) << origin[1] << " |"
+         << setw(12) << origin[2] << " |" << endl;
+    cout << " |=======================================================| " << endl;
+    cout << " | Mode (Type of Data)  | " << left << setw(30) << mode         << " |" << endl;
+    cout << " | Min. Density Value   | " << left << setw(30) << densityMin   << " |" << endl;
+    cout << " | Max. Density Value   | " << left << setw(30) << densityMax   << " |" << endl;
+    cout << " | Mean Density Value   | " << left << setw(30) << densityMean  << " |" << endl;
+    cout << " | R.M.S. Deviation     | " << left << setw(30) << rms          << " |" << endl;
+    cout << " | Space Group Number   | " << left << setw(30) << iSpaceGroup  << " |" << endl;
+    cout << " | Extended Header Size | " << left << setw(30) << sizeExHeader << " |" << endl;
     string extra_string(extra);
-    cout << extra_string << endl;
-    cout << code << endl;
-    cout << version << endl;
-    cout << origin[0] << "\t" << origin[1] << "\t" << origin[2] << endl;
-    cout << rms << endl;
-    cout << nLabel << endl;
+    cout << " | Extended Header      | " << left << setw(30) << extra_string << " |" << endl;
+    cout << " | Type of Metadata     | " << left << setw(30) << code         << " |" << endl;
+    cout << " | Version of MRC       | " << left << setw(30) << version      << " |" << endl;
+    cout << " | Number of Labels     | " << left << setw(30) << nLabel       << " |" << endl;
     string label_string(label);
-    cout << label_string << endl;
-    cout << " ========================================================= " << endl;
+    cout << " | 10 80-char Labels    | " << left << setw(30) << label_string << " |" << endl;
+    cout << " o=======================================================o " << endl;
 }
 
 void MrcFile::SetInputFile(const std::string & path_to_input)

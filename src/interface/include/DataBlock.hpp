@@ -2,6 +2,7 @@
 #define DATABLOCK_HPP_
 
 #include <iostream>
+#include <iomanip>
 #include <memory>
 #include <vector>
 #include "ImageObject.hpp"

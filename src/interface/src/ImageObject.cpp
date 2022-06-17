@@ -2,8 +2,17 @@
 
 void ImageObject::Print(void) const
 {
-    std::cout << "Image's dimension = " << n_bin_x << " x " << n_bin_y << std::endl;
-    std::cout << "Image's pixel size = " << bin_size_x << " x " << bin_size_y << std::endl;
+    using namespace std;
+    cout << " o=========================================o " << endl;
+    cout << " |  Image Obj. |    Column   |     Row     | " << endl;
+    cout << " o=========================================o " << endl;
+    cout << " |  Dimension  |";
+    cout << setw(12) << n_bin_x << " |"
+         << setw(12) << n_bin_y << " |" << endl;
+    cout << " |  Resolution |";
+    cout << setw(12) << bin_size_x << " |"
+         << setw(12) << bin_size_y << " |" << endl;
+    cout << " o=========================================o " << endl;
 }
 
 void ImageObject::Set(int _n_bin_x, int _n_bin_y, float _bin_size_x, float _bin_size_y)

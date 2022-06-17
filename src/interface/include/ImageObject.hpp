@@ -2,6 +2,7 @@
 #define IMAGEOBJECT_HPP_
 
 #include <iostream>
+#include <iomanip>
 #include <memory>
 #include "TH2.h"
 

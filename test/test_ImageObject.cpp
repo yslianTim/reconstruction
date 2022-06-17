@@ -17,10 +17,10 @@ protected:
     
     void SetUp(void) override
     {
-        num_x = 50;
-        num_y = 50;
+        num_x = 10;
+        num_y = 10;
         size_x = 5.8;
-        size_y = 95.3;
+        size_y = 9.3;
         data_dummy.reserve(num_x * num_y);
         data = std::make_unique<float[]>(num_x * num_y);
         for (int i = 0; i < num_x * num_y; ++i)
@@ -86,6 +86,7 @@ TEST_F(ImageObjectTest, TestGetEntry)
 TEST_F(ImageObjectTest, TestGetPicture)
 {
     auto picture = image1.GetPicture();
+    image1.Print();
 
     for (int x = 0; x < num_x; ++x)
     {

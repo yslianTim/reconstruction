@@ -2,8 +2,19 @@
 
 void VolumeObject::Print(void) const
 {
-    std::cout << "Image's dimension = " << n_bin_x << " x " << n_bin_y << std::endl;
-    std::cout << "Image's pixel size = " << bin_size_x << " x " << bin_size_y << std::endl;
+    using namespace std;
+    cout << " o=======================================================o " << endl;
+    cout << " | Volume Obj. |    Column   |     Row     |   Section   | " << endl;
+    cout << " o=======================================================o " << endl;
+    cout << " |  Dimension  |";
+    cout << setw(12) << n_bin_x << " |"
+         << setw(12) << n_bin_y << " |"
+         << setw(12) << n_bin_z << " |" << endl;
+    cout << " |  Resolution |";
+    cout << setw(12) << bin_size_x << " |"
+         << setw(12) << bin_size_y << " |"
+         << setw(12) << bin_size_z << " |" << endl;
+    cout << " o=======================================================o " << endl;
 }
 
 void VolumeObject::Set(int _n_bin_x, int _n_bin_y, int _n_bin_z,
@@ -39,8 +50,8 @@ void VolumeObject::MakePicture(void)
             {
                 for (int k = 0; k < n_bin_z; ++k)
                 {
-                    auto entry = GetEntry(i,n_bin_y-1-j,n_bin_z-1-k);
-                    picture->SetBinContent(i,j,k,entry);
+                    auto entry = GetEntry(i, n_bin_y-1-j, n_bin_z-1-k);
+                    picture->SetBinContent(i, j, k, entry);
                 }
             }
         }
