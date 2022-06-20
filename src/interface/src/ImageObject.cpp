@@ -45,8 +45,8 @@ void ImageObject::MakePicture(void)
         {
             for (int j = 0; j < n_bin_y; ++j)
             {
-                auto entry = GetEntry(i,n_bin_y-1-j);
-                picture->SetBinContent(i,j,entry);
+                auto entry = GetEntry(i, n_bin_y-1-j);
+                picture->SetBinContent(i, j, entry);
             }
         }
         picture->SetStats(0);
@@ -71,8 +71,8 @@ void ImageObject::MakePictureRot(void)
     {
         for (int j = 0; j < n_bin_y; ++j)
         {
-            auto entry = GetEntryRot(i,n_bin_y-1-j);
-            picture_rot->SetBinContent(i,j,entry);
+            auto entry = GetEntryRot(i, n_bin_y-1-j);
+            picture_rot->SetBinContent(i, j, entry);
         }
     }
     picture_rot->SetStats(0);
@@ -85,20 +85,20 @@ void ImageObject::MakePictureRot(void)
 
 void ImageObject::Rotate(double _theta)
 {
-    double d[4] = { cos(_theta), sin(_theta),
-                   -sin(_theta), cos(_theta) };
+    double d[4] = { cos(_theta),-sin(_theta),
+                    sin(_theta), cos(_theta) };
     SMatrix2d mtx_rot_inv( d, 4 );
     SVector2d vec_center( (n_bin_x-1.0)/2.0, (n_bin_y-1.0)/2.0 );
-    for (int i = 0; i < n_bin_x; ++i)
+    for (int y = 0; y < n_bin_y; ++y)
     {
-        for (int j = 0; j < n_bin_y; ++j)
+        for (int x = 0; x < n_bin_x; ++x)
         {
-            SVector2d vec_coord( i, j );
+            SVector2d vec_coord(x, y);
             vec_coord -= vec_center;
             vec_coord = mtx_rot_inv * vec_coord + vec_center;
-            auto i_new = (vec_coord[0]<n_bin_x)? round(vec_coord[0]) : round(vec_coord[0]-n_bin_x);
-            auto j_new = (vec_coord[1]<n_bin_y)? round(vec_coord[1]) : round(vec_coord[1]-n_bin_y);
-            data_rot[i + n_bin_x*j] = GetEntry(i_new,j_new);
+            auto x_new = (vec_coord[0] < n_bin_x) ? vec_coord[0] : vec_coord[0]-n_bin_x;
+            auto y_new = (vec_coord[1] < n_bin_y) ? vec_coord[1] : vec_coord[1]-n_bin_y;
+            data_rot[GetBinIndex(x, y)] = GetEntry(round(x_new), round(y_new));
         }
     }
     MakePictureRot();

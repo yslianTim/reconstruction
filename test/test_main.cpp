@@ -74,15 +74,17 @@ TEST(TestFileManager, TestDrawImage)
 {
     // Arrange
     auto fileList = FileManager::Instance().GetFileList();
-    fileList.at(0)->GetDataBlockRef()->GetImageListRef().at(0)->Rotate(0.15*M_PI);
+    fileList.at(0)->GetDataBlockRef()->GetImageListRef().at(0)->Rotate(0.25*M_PI);
+    fileList.at(1)->GetDataBlockRef()->GetVolumeListRef().at(0)->Rotate(0.25*M_PI,0.0,0.0);
     auto h1 = fileList.at(0)->GetDataBlockRef()->GetImageListRef().at(0)->GetPicture();
     auto h2 = fileList.at(0)->GetDataBlockRef()->GetImageListRef().at(0)->GetPictureRot();
     auto h3 = fileList.at(1)->GetDataBlockRef()->GetVolumeListRef().at(0)->GetPicture();
+    auto h4 = fileList.at(1)->GetDataBlockRef()->GetVolumeListRef().at(0)->GetPictureRot();
 
     // Act
     gStyle->SetPalette(52);
-    auto cm = new TCanvas("cm","Canvas", 1200, 400);
-    cm->Divide(3,1);
+    auto cm = new TCanvas("cm","Canvas", 1600, 400);
+    cm->Divide(4,1);
     
     cm->cd(1);
     h1->Draw("COL");
@@ -90,6 +92,8 @@ TEST(TestFileManager, TestDrawImage)
     h2->Draw("COL");
     cm->cd(3);
     h3->Draw("ISO");
+    cm->cd(4);
+    h4->Draw("ISO");
     cm->Print("image_test.png");
 
     // Assert

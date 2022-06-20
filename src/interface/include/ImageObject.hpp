@@ -33,10 +33,11 @@ public:
     void Rotate(double _angle);
     int GetNBinX(void) const { return n_bin_x; }
     int GetNBinY(void) const { return n_bin_y; }
+    int GetBinIndex(int _x, int _y) const { return _x + n_bin_x*_y; }
     float GetBinSizeX(void) const { return bin_size_x; }
     float GetBinSizeY(void) const { return bin_size_y; }
-    float GetEntry(int _x, int _y) const { return data_ori[_x + n_bin_x*_y]; }
-    float GetEntryRot(int _x, int _y) const { return data_rot[_x + n_bin_x*_y]; }
+    float GetEntry(int _x, int _y) const { return data_ori[GetBinIndex(_x, _y)]; }
+    float GetEntryRot(int _x, int _y) const { return data_rot[GetBinIndex(_x, _y)]; }
     std::shared_ptr<TH2F> GetPicture(void) const { return picture; }
     std::shared_ptr<TH2F> GetPictureRot(void) const { return picture_rot; }
 
