@@ -17,8 +17,8 @@ protected:
     
     void SetUp(void) override
     {
-        num_x = 10;
-        num_y = 10;
+        num_x = 100;
+        num_y = 100;
         size_x = 5.8;
         size_y = 9.3;
         data_dummy.reserve(num_x * num_y);
@@ -86,7 +86,8 @@ TEST_F(ImageObjectTest, TestGetEntry)
 TEST_F(ImageObjectTest, TestGetPicture)
 {
     auto picture = image1.GetPicture();
-    image1.Print();
+
+    EXPECT_NE(picture, nullptr) << "Image's picture is not been created.";
 
     for (int x = 0; x < num_x; ++x)
     {
@@ -98,6 +99,12 @@ TEST_F(ImageObjectTest, TestGetPicture)
                 << "Picture's entry: " << index << " is inconsistent.";
         }
     }
+}
 
-    EXPECT_NE(picture, nullptr) << "Image's picture is not been created.";
+TEST_F(ImageObjectTest, TestRotate)
+{
+    image1.Rotate(0.25*M_PI);
+    auto picture = image1.GetPictureRot();
+
+    EXPECT_NE(picture, nullptr) << "Rotated Image's picture is not been created.";
 }
