@@ -12,7 +12,7 @@ protected:
     ImageObject image2;
     std::vector<float> data_dummy;
     std::unique_ptr<float[]> data;
-    int num_x, num_y;
+    int num_x, num_y, num_array;
     float size_x, size_y;
     
     void SetUp(void) override
@@ -21,9 +21,10 @@ protected:
         num_y = 100;
         size_x = 5.8;
         size_y = 9.3;
-        data_dummy.reserve(num_x * num_y);
-        data = std::make_unique<float[]>(num_x * num_y);
-        for (int i = 0; i < num_x * num_y; ++i)
+        num_array = num_x * num_y;
+        data_dummy.reserve(num_array);
+        data = std::make_unique<float[]>(num_array);
+        for (int i = 0; i < num_array; ++i)
         {
             auto tmp = 0.1*i;
             data_dummy.push_back(tmp);
@@ -107,4 +108,15 @@ TEST_F(ImageObjectTest, TestRotate)
     auto picture = image1.GetPictureRot();
 
     EXPECT_NE(picture, nullptr) << "Rotated Image's picture is not been created.";
+}
+
+TEST_F(ImageObjectTest, TestGetMinMaximum)
+{
+    auto minimum = *(std::min_element(data_dummy.begin(), data_dummy.end()));
+    auto maximum = *(std::max_element(data_dummy.begin(), data_dummy.end()));
+    auto test_minimum = image1.GetMinimum();
+    auto test_maximum = image1.GetMaximum();
+
+    EXPECT_FLOAT_EQ(minimum, test_minimum) << "Image's minimum entry is not correct.";
+    EXPECT_FLOAT_EQ(maximum, test_maximum) << "Image's maximum entry is not correct.";
 }

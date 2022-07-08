@@ -51,11 +51,11 @@ void VolumeObject::Extend(void)
     auto offx = static_cast<int>(round(vec_offset[0]));
     auto offy = static_cast<int>(round(vec_offset[1]));
     auto offz = static_cast<int>(round(vec_offset[2]));
-    for (int i = 0; i < n_bin_x; ++i)
+    for (int i = 0; i < n_bin_x; i++)
     {
-        for (int j = 0; j < n_bin_y; ++j)
+        for (int j = 0; j < n_bin_y; j++)
         {
-            for (int k = 0; k < n_bin_z; ++k)
+            for (int k = 0; k < n_bin_z; k++)
             {
                 data_ext[GetBinIndexExt(i+offx, j+offy, k+offz)] = data[GetBinIndex(i, j, k)];
             }
@@ -67,7 +67,7 @@ void VolumeObject::Extend(void)
 
 void VolumeObject::Rotate(double _phi, double _theta, double _psi)
 {
-    if (!is_extend)
+    if (IsExtend() == false)
     {
         std::cout << "[Warning] VolumeObject should be extended before Rotate()!" << std::endl;
         return;
@@ -81,11 +81,11 @@ void VolumeObject::Rotate(double _phi, double _theta, double _psi)
                     rot[6], rot[7], rot[8] };
     SMatrix3d mtx_rot_inv( d, 9 );
     SVector3d vec_center( (n_bin_ext-1.0)/2.0, (n_bin_ext-1.0)/2.0, (n_bin_ext-1.0)/2.0 );
-    for (int z = 0; z < n_bin_ext; ++z)
+    for (int z = 0; z < n_bin_ext; z++)
     {
-        for (int y = 0; y < n_bin_ext; ++y)
+        for (int y = 0; y < n_bin_ext; y++)
         {
-            for (int x = 0; x < n_bin_ext; ++x)
+            for (int x = 0; x < n_bin_ext; x++)
             {
                 SVector3d vec_coord(x, y, z);
                 vec_coord -= vec_center;
@@ -106,10 +106,14 @@ void VolumeObject::MakeDataArray(void)
 {
     if (data != nullptr)
     {
-        std::cout << "[Warning] data_ori is exist, Skip MakeDataArray()..." << std::endl;
+        std::cout << "[Warning] data is exist, Skip MakeDataArray()..." << std::endl;
         return;
     }
     data = std::make_unique<float[]>(n_array);
+    for (int i = 0; i < n_array; i++)
+    {
+        data[i] = 0.0;
+    }
 }
 
 void VolumeObject::MakeDataArrayExt(void)
@@ -120,6 +124,10 @@ void VolumeObject::MakeDataArrayExt(void)
         return;
     }
     data_ext = std::make_unique<float[]>(n_array_ext);
+    for (int i = 0; i < n_array_ext; i++)
+    {
+        data_ext[i] = 0.0;
+    }
 }
 
 void VolumeObject::MakeDataArrayRot(void)
@@ -130,6 +138,10 @@ void VolumeObject::MakeDataArrayRot(void)
         return;
     }
     data_rot = std::make_unique<float[]>(n_array_ext);
+    for (int i = 0; i < n_array_ext; i++)
+    {
+        data_rot[i] = 0.0;
+    }
 }
 
 void VolumeObject::MakePicture(void)
@@ -142,11 +154,11 @@ void VolumeObject::MakePicture(void)
     {
         picture = std::make_shared<TH3F>("","",
                     n_bin_x, 0, n_bin_x, n_bin_y, 0, n_bin_y, n_bin_z, 0, n_bin_z);
-        for (int i = 0; i < n_bin_x; ++i)
+        for (int i = 0; i < n_bin_x; i++)
         {
-            for (int j = 0; j < n_bin_y; ++j)
+            for (int j = 0; j < n_bin_y; j++)
             {
-                for (int k = 0; k < n_bin_z; ++k)
+                for (int k = 0; k < n_bin_z; k++)
                 {
                     auto entry = GetEntry(i, n_bin_y-1-j, n_bin_z-1-k);
                     picture->SetBinContent(i, j, k, entry);
@@ -174,11 +186,11 @@ void VolumeObject::MakePictureExt(void)
 
     picture_ext = std::make_shared<TH3F>("","",
                   n_bin_ext, 0, n_bin_ext, n_bin_ext, 0, n_bin_ext, n_bin_ext, 0, n_bin_ext);
-    for (int i = 0; i < n_bin_ext; ++i)
+    for (int i = 0; i < n_bin_ext; i++)
     {
-        for (int j = 0; j < n_bin_ext; ++j)
+        for (int j = 0; j < n_bin_ext; j++)
         {
-            for (int k = 0; k < n_bin_ext; ++k)
+            for (int k = 0; k < n_bin_ext; k++)
             {
                 auto entry = GetEntryExt(i, n_bin_ext-1-j, n_bin_ext-1-k);
                 picture_ext->SetBinContent(i, j, k, entry);
@@ -205,11 +217,11 @@ void VolumeObject::MakePictureRot(void)
 
     picture_rot = std::make_shared<TH3F>("","",
                   n_bin_ext, 0, n_bin_ext, n_bin_ext, 0, n_bin_ext, n_bin_ext, 0, n_bin_ext);
-    for (int i = 0; i < n_bin_ext; ++i)
+    for (int i = 0; i < n_bin_ext; i++)
     {
-        for (int j = 0; j < n_bin_ext; ++j)
+        for (int j = 0; j < n_bin_ext; j++)
         {
-            for (int k = 0; k < n_bin_ext; ++k)
+            for (int k = 0; k < n_bin_ext; k++)
             {
                 auto entry = GetEntryRot(i, n_bin_ext-1-j, n_bin_ext-1-k);
                 picture_rot->SetBinContent(i, j, k, entry);

@@ -24,13 +24,12 @@ TEST(TestFileManager, TestImportFile)
 {
     // Arrange
     FileManager::Instance().ImportFile("/home/yslian/Projects/mywork/data/particles_10.mrcs");
-    FileManager::Instance().ImportFile("/home/yslian/Projects/mywork/downloads/protein_PDB_5J0N.mrc");
-    //FileManager::Instance().ImportFile("/nas1/yslian/Data/mrcfile_one_particle/one_p_9953.mrc");
-    //FileManager::Instance().ImportFile("/nas1/yslian/Data/mrcfile_one_particle/one_p_9966.mrc");
+    FileManager::Instance().ImportFile("/home/yslian/Projects/mywork/data/ADP_step4_res10.mrc");
+    //FileManager::Instance().ImportFile("/home/yslian/Projects/mywork/downloads/protein_PDB_5J0N.mrc");
     
     // Act
     int nImportFile = FileManager::Instance().NumberOfImportFile();
-    FileManager::Instance().Print();
+    //FileManager::Instance().Print();
 
     // Assert
     ASSERT_EQ(2, nImportFile);
@@ -57,8 +56,8 @@ TEST(TestFileManager, TestSetDataManager)
     for (auto & i : fileList)
     {
         i->AccessData();
-        i->Print();
-        i->GetDataBlockRef()->Print();
+        //i->Print();
+        //i->GetDataBlockRef()->Print();
         
         //std::cout << i->GetDataBlockRef()->GetDataArrayRef()[0] << ", "
         //<< i->GetDataBlockRef()->GetDataArrayRef()[1] << std::endl;
@@ -71,7 +70,7 @@ TEST(TestFileManager, TestSetDataManager)
 }
 
 TEST(TestFileManager, TestDrawImage)
-{
+{/*
     // Arrange
     auto fileList = FileManager::Instance().GetFileList();
     fileList.at(0)->GetDataBlockRef()->GetImageListRef().at(0)->Rotate(0.25*M_PI);
@@ -98,7 +97,7 @@ TEST(TestFileManager, TestDrawImage)
     h4->Draw("ISO");
     cm->cd(5);
     h5->Draw("ISO");
-    cm->Print("image_test.png");
+    cm->Print("image_test.png");*/
 
     // Assert
     ASSERT_EQ( 2, 2);

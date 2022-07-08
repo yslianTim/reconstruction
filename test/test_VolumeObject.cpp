@@ -28,7 +28,7 @@ protected:
         num_array_ext = num_ext * num_ext * num_ext;
         data_dummy.reserve(num_array);
         data = std::make_unique<float[]>(num_array);
-        for (int i = 0; i < num_array; ++i)
+        for (int i = 0; i < num_array; i++)
         {
             auto tmp = 0.1*i;
             data_dummy.push_back(tmp);
@@ -64,11 +64,11 @@ TEST_F(VolumeObjectTest, TestGetNBin)
 
 TEST_F(VolumeObjectTest, TestGetBinIndex)
 {
-    for (int x = 0; x < num_x; ++x)
+    for (int x = 0; x < num_x; x++)
     {
-        for (int y = 0; y < num_y; ++y)
+        for (int y = 0; y < num_y; y++)
         {
-            for (int z = 0; z < num_z; ++z)
+            for (int z = 0; z < num_z; z++)
             {
                 auto index = x + num_x*(y + num_y*z);
                 auto test_index = volume1.GetBinIndex(x, y, z);
@@ -81,11 +81,11 @@ TEST_F(VolumeObjectTest, TestGetBinIndex)
 
 TEST_F(VolumeObjectTest, TestGetBinIndexExt)
 {
-    for (int x = 0; x < num_ext; ++x)
+    for (int x = 0; x < num_ext; x++)
     {
-        for (int y = 0; y < num_ext; ++y)
+        for (int y = 0; y < num_ext; y++)
         {
-            for (int z = 0; z < num_ext; ++z)
+            for (int z = 0; z < num_ext; z++)
             {
                 auto index = x + num_ext*(y + num_ext*z);
                 auto test_index = volume1.GetBinIndexExt(x, y, z);
@@ -110,7 +110,7 @@ TEST_F(VolumeObjectTest, TestGetBinSize)
 TEST_F(VolumeObjectTest, TestImportData)
 {
     auto data_tmp = std::make_unique<float[]>(num_x * num_y * num_z);
-    for (int i = 0; i < num_x * num_y * num_z; ++i)
+    for (int i = 0; i < num_x * num_y * num_z; i++)
     {
         data_tmp[i] = data_dummy.at(i);
     }
@@ -120,11 +120,11 @@ TEST_F(VolumeObjectTest, TestImportData)
 
 TEST_F(VolumeObjectTest, TestGetEntry1)
 {
-    for (int x = 0; x < num_x; ++x)
+    for (int x = 0; x < num_x; x++)
     {
-        for (int y = 0; y < num_y; ++y)
+        for (int y = 0; y < num_y; y++)
         {
-            for (int z = 0; z < num_z; ++z)
+            for (int z = 0; z < num_z; z++)
             {
                 auto index = volume1.GetBinIndex(x, y, z);
                 auto test_entry = volume1.GetEntry(x, y, z);
@@ -148,11 +148,11 @@ TEST_F(VolumeObjectTest, TestGetPicture)
 {
     auto picture = volume1.GetPicture();
 
-    for (int x = 0; x < num_x; ++x)
+    for (int x = 0; x < num_x; x++)
     {
-        for (int y = 0; y < num_y; ++y)
+        for (int y = 0; y < num_y; y++)
         {
-            for (int z = 0; z < num_z; ++z)
+            for (int z = 0; z < num_z; z++)
             {
                 auto index = volume1.GetBinIndex(x, y, z);
                 auto test_entry = picture->GetBinContent(x, num_y-1-y, num_z-1-z);
@@ -163,4 +163,23 @@ TEST_F(VolumeObjectTest, TestGetPicture)
     }
 
     EXPECT_NE(picture, nullptr) <<"Volume's picture is not been created.";
+}
+
+TEST_F(VolumeObjectTest, TestExtend)
+{
+    volume1.Extend();
+    auto test_is_extend = volume1.IsExtend();
+    EXPECT_EQ(true, test_is_extend) <<"Volume's extend data array is not been created.";
+}
+
+TEST_F(VolumeObjectTest, TestRotate)
+{
+    volume1.Extend();
+    volume1.Rotate(2.0*M_PI, M_PI, 2.0*M_PI);
+    for (int i = 0; i < num_array; ++i)
+    {
+        auto entry = volume1.GetEntryExt(i);
+        auto test_entry = volume1.GetEntryRot(i);
+        EXPECT_FLOAT_EQ(entry, test_entry) <<"Volume's rotate entry: "<< i <<" is inconsistent.";
+    }
 }

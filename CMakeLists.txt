@@ -12,19 +12,23 @@ cmake_minimum_required(VERSION 3.17 FATAL_ERROR)
 # Set the project name and version
 project(MyProject VERSION 1.0)
 
-# Specify the C++ standard
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# Specify C++ standard
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Locate the ROOT package
+# Locate Qt package
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
+
+# Locate ROOT package
 find_package(ROOT 6.24 CONFIG REQUIRED)
 list(APPEND ROOT_LIBS ROOT::Core ROOT::Gpad ROOT::Hist)
 
-# Locate the Eigen package
+# Locate Eigen package
 find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 list(APPEND EIGEN_LIBS Eigen3::Eigen)
 
-# Locate the HDF5 package
+# Locate HDF5 package
 find_package(HDF5 COMPONENTS CXX HL REQUIRED)
 list(APPEND HDF5_LIBS ${HDF5_HL_LIBRARIES} ${HDF5_CXX_LIBRARIES} ${HDF5_LIBRARIES})
 

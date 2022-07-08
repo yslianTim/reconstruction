@@ -2,33 +2,29 @@
 
 void ImageObject::Print(void) const
 {
-    using namespace std;
-    cout << " o=========================================o " << endl;
-    cout << " |  Image Obj. |    Column   |     Row     | " << endl;
-    cout << " o=========================================o " << endl;
-    cout << " |  Dimension  |";
-    cout << setw(12) << n_bin_x << " |"
-         << setw(12) << n_bin_y << " |" << endl;
-    cout << " |  Resolution |";
-    cout << setw(12) << bin_size_x << " |"
-         << setw(12) << bin_size_y << " |" << endl;
-    cout << " o=========================================o " << endl;
+    qInfo(" o=========================================o");
+    qInfo(" |  Image Obj. |    Column   |     Row     |");
+    qInfo(" o=========================================o");
+    qInfo(" |  Dimension  | %11d | %11d |", n_bin_x, n_bin_y);
+    qInfo(" |  Resolution | %11.5f | %11.5f |", bin_size_x, bin_size_y);
+    qInfo(" o=========================================o");
 }
 
-void ImageObject::Set(int _n_bin_x, int _n_bin_y, float _bin_size_x, float _bin_size_y)
+void ImageObject::Set(int _nx, int _ny, float _sx, float _sy)
 {
-    n_bin_x = _n_bin_x;
-    n_bin_y = _n_bin_y;
-    bin_size_x = _bin_size_x;
-    bin_size_y = _bin_size_y;
-    if (data_ori == nullptr) data_ori = std::make_unique<float[]>(_n_bin_x * _n_bin_y);
-    if (data_rot == nullptr) data_rot = std::make_unique<float[]>(_n_bin_x * _n_bin_y);
+    n_bin_x = _nx;
+    n_bin_y = _ny;
+    bin_size_x = _sx;
+    bin_size_y = _sy;
+    n_array = _nx * _ny;
 }
 
-void ImageObject::ImportData(std::unique_ptr<float[]> & _data_ori)
+void ImageObject::ImportData(std::unique_ptr<float[]> & _data)
 {
-    data_ori = std::move(_data_ori);
-    _data_ori.reset(nullptr);
+    MakeDataArray();
+    MakeDataArrayRot();
+    data = std::move(_data);
+    _data.reset(nullptr);
     MakePicture();
 }
 
@@ -36,7 +32,7 @@ void ImageObject::MakePicture(void)
 {
     if( picture != nullptr )
     {
-        std::cout << "[Warning] The picture already been created, Skip MakePicture()..." << std::endl;
+        qWarning("The picture already been created, Skip MakePicture()...");
     }
     else
     {
@@ -102,4 +98,42 @@ void ImageObject::Rotate(double _theta)
         }
     }
     MakePictureRot();
+}
+
+void ImageObject::MakeDataArray(void)
+{
+    if (data != nullptr)
+    {
+        qWarning("data is exist, Skip MakeDataArray()...");
+        return;
+    }
+    data = std::make_unique<float[]>(n_array);
+    for (int i = 0; i < n_array; i++)
+    {
+        data[i] = 0.0;
+    }
+}
+
+void ImageObject::MakeDataArrayRot(void)
+{
+    if (data_rot != nullptr)
+    {
+        qWarning("data_rot is exist, Skip MakeRotDataArray()...");
+        return;
+    }
+    data_rot = std::make_unique<float[]>(n_array);
+    for (int i = 0; i < n_array; i++)
+    {
+        data_rot[i] = 0.0;
+    }
+}
+
+void ImageObject::Normalize(void)
+{
+    auto range = GetMaximum() - GetMinimum();
+    auto dmin = GetMinimum();
+    for (int i = 0; i < n_array; i++)
+    {
+        data[i] = (data[i] - dmin)/range;
+    }
 }

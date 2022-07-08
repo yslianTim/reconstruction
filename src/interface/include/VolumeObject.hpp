@@ -38,6 +38,7 @@ public:
     void ImportData(std::unique_ptr<float[]> & _data);
     void Extend(void);
     void Rotate(double _phi, double _theta, double _psi);
+    bool IsExtend(void) const { return is_extend; }
     int GetNBinX(void) const { return n_bin_x; }
     int GetNBinY(void) const { return n_bin_y; }
     int GetNBinZ(void) const { return n_bin_z; }
@@ -51,7 +52,9 @@ public:
     float GetBinSizeZ(void) const { return bin_size_z; }
     float GetEntry(int _i) const { return data[_i]; }
     float GetEntry(int _x, int _y, int _z) const { return data[GetBinIndex(_x, _y, _z)]; }
+    float GetEntryExt(int _i) const { return data_ext[_i]; }
     float GetEntryExt(int _x, int _y, int _z) const { return data_ext[GetBinIndexExt(_x, _y, _z)]; }
+    float GetEntryRot(int _i) const { return data_rot[_i]; }
     float GetEntryRot(int _x, int _y, int _z) const { return data_rot[GetBinIndexExt(_x, _y, _z)]; }
     std::shared_ptr<TH3F> GetPicture(void) const { return picture; }
     std::shared_ptr<TH3F> GetPictureExt(void) const { return picture_ext; }
